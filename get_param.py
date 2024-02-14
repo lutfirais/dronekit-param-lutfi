@@ -9,6 +9,9 @@ Path(f'./Log/{file_name}.txt').touch()
 f = open(f"./Log/{file_name}.txt","a")
 
 vehicle = connect('127.0.0.1:14550',wait_ready=True)
+# SITL 127.0.0.1:14550
+# Raspberry Pi -> Pixhawk /dev/ttyAMA0 baud =57600
+
 last_attitude_cache = None
 t = time.time()
 
