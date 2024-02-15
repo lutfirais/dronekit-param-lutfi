@@ -4,11 +4,12 @@ import argparse
 from pathlib import Path
 
 # Making .txt log file
-file_name = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()) 
+file_name = time.strftime("%Y-%m-%d_%H:%M:%S",time.localtime()) 
 Path(f'./Log/{file_name}.txt').touch()
 f = open(f"./Log/{file_name}.txt","a")
 
-vehicle = connect('127.0.0.1:14550',wait_ready=True)
+#vehicle = connect('127.0.0.1:14550',wait_ready=True)
+vehicle = connect('/dev/ttyAMA0',baud=57600,wait_ready = True)
 # SITL 127.0.0.1:14550
 # Raspberry Pi -> Pixhawk /dev/ttyAMA0 baud =57600
 
@@ -18,7 +19,8 @@ t = time.time()
 # Print Header
 local_time = time.localtime()
 incTime = 0
-f.write(f"deltaTime(s) \t Time(s) \t Roll(rad) \t Pitch(rad) \t Yaw(rad) \t RollSpeed(rad/s) \t PitchSpeed(rad/s) \t YawSpeed(rad/s) \n")
+print("Writing on log file")
+f.write(f"deltaTime(s);Time(s);Roll(rad);Pitch(rad);Yaw(rad);RollSpeed(rad/s);PitchSpeed(rad/s);YawSpeed(rad/s) \n")
 
 # Callback function that prints attitude info 
 # Big thanks to ajayaru <3
@@ -39,7 +41,7 @@ def attitude_callback(self, attr_name, value):
     deltaTime = time.time() - t
     t = time.time()
     incTime += deltaTime
-    f.write(f"%.8f \t %.8f \t %.8f \t  %.8f \t  %.8f \t  %.8f \t  %.8f \t  %.8f \n" %(deltaTime,incTime,roll,pitch,yaw,vehicle._rollspeed,vehicle._pitchspeed,vehicle._yawspeed))
+    f.write(f"%.8f;%.8f;%.8f;%.8f;%.8f;%.8f;%.8f;%.8f \n" %(deltaTime,incTime,roll,pitch,yaw,vehicle._rollspeed,vehicle._pitchspeed,vehicle._yawspeed))
     last_attitude_cache=value
 
 # Adding Callback
