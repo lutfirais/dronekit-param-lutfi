@@ -12,12 +12,14 @@ connection_string = args.connect
 
 # Connect to the Vehicle
 print('Connecting to vehicle on: %s' % connection_string)
-vehicle = connect(connection_string, wait_ready=True)
+# vehicle = connect(connection_string, wait_ready=True)
+vehicle = connect('/dev/ttyAMA0',baud=57600,wait_ready = True)
 
 # Listening to SERVO_OUTPUT_RAW mavlink topic
-@vehicle.on_message('SERVO_OUTPUT_RAW') 
+@vehicle.on_message('*') 
 def listener(vehicle, name, m):
-    print(f"{m.servo1_raw}\t{m.servo2_raw}\t{m.servo3_raw}\t{m.servo4_raw}") # The Four PWM of the Quadcopter
+    # print(f"{m.servo1_raw}\t{m.servo2_raw}\t{m.servo3_raw}\t{m.servo4_raw}") # The Four PWM of the Quadcopter
+    print(m)
 
 '''
 The above example worked, now try
