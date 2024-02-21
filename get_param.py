@@ -12,8 +12,8 @@ GPIO.output(16, GPIO.HIGH)
 
 # Making .txt log file
 file_name = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()) 
-Path(f'./Log/{file_name}.txt').touch()
-f = open(f"./Log/{file_name}.txt","a")
+Path(f'/home/drone/dronekit-param/Log/{file_name}.txt').touch()
+f = open(f"/home/drone/dronekit-param/Log/{file_name}.txt","a")
 
 #vehicle = connect('127.0.0.1:14550',wait_ready=True)
 vehicle = connect('/dev/ttyAMA0',baud=57600,wait_ready = True)
@@ -49,7 +49,7 @@ def listener(vehicle, name, m):
     yaw = float(split_values[1].split('=')[1])
     roll = float(split_values[2].split('=')[1])
 
-    f.write(f"%.8f \t%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%d\t%d\t%d\t%d\n" %(deltaTime,incTime,roll,pitch,yaw,vehicle._rollspeed,vehicle._pitchspeed,vehicle._yawspeed,m.servo1_raw,m.servo2_raw,m.servo3_raw,m.servo4_raw))
+    f.write(f"%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%.8f\t%d\t%d\t%d\t%d\n" %(deltaTime,incTime,roll,pitch,yaw,vehicle._rollspeed,vehicle._pitchspeed,vehicle._yawspeed,m.servo1_raw,m.servo2_raw,m.servo3_raw,m.servo4_raw))
 
 while True:
     continue
